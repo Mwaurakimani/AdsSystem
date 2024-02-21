@@ -1,5 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import home from '@/views/signin.vue'
+import register from '@/views/register.vue'
+import { marketerRoutes } from '@/router/marketer/routes.js'
+import { creatorRoutes } from '@/router/creator/routes.js'
+import Account from "@/views/Shared/Account.vue";
+import {is_Authenticated} from "@/composables/Authentication.js";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,17 +12,52 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: home
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
+      path: '/register',
+      name: 'register',
+      component: register
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component: Account,
+      meta:{requiresAuth:true}
+    },
+    ...marketerRoutes,
+    ...creatorRoutes
   ]
 })
+
+
+router.beforeEach(async (to, from, next) => {
+
+  const authenticated = await is_Authenticated(true);
+
+  if (to.meta.requiresAuth && !authenticated) {
+    next({ name: 'home' });
+  } else if ((to.name === 'home' || to.name === 'register') && authenticated){
+    next({ name: 'account' });
+  } else {
+    next();
+  }
+
+});
+
+router.beforeEach(async (to, from, next) => {
+  const authenticated = await is_Authenticated();
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (to.meta.marketerGuard && user.accountType !== 'marketer') {
+    next({ name: 'home' });
+  }  else if (to.meta.creatorGuard &&  user.accountType !== 'creator') {
+    next({ name: 'home' });
+  } else if (to.meta.adminGuard &&  user.accountType !== 'admin') {
+    next({ name: 'home' });
+  }
+
+  next();
+});
 
 export default router
