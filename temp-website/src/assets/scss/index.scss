@@ -1,0 +1,36 @@
+$heading-scale-diff:0.15;
+$base-heading-size:1.15em;
+
+.article-container{
+  h1,h2,h3,h4,h5,h6{
+    @apply font-semibold mb-[10px]
+  }
+
+  p{
+    @apply mb-[20px]
+  }
+
+  h6{
+    font-size:$base-heading-size;
+  }
+
+  h5{
+    font-size:($base-heading-size + $heading-scale-diff);
+  }
+
+  h4{
+    font-size:($base-heading-size + ($heading-scale-diff * 2) );
+  }
+
+  h3{
+    font-size:($base-heading-size + ($heading-scale-diff * 3) );
+  }
+
+  h2{
+    font-size:($base-heading-size + ($heading-scale-diff * 4) );
+  }
+
+  h1{
+    font-size:($base-heading-size + ($heading-scale-diff * 5) );
+  }
+}

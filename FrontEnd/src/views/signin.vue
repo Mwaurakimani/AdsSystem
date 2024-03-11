@@ -55,7 +55,7 @@ function register() {
       <form>
         <div class="px-[60px]">
           <div class="input-group">
-            <label>username</label>
+            <label>Username</label>
             <input type="text" placeholder="username" v-model="content.username"/>
             <p v-if="errorsValues.username" class="text-red-400 text-right text-sm">{{errorsValues?.username[0]}}</p>
           </div>
