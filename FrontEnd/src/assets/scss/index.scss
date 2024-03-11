@@ -1,0 +1,41 @@
+h1 {
+  font-size: 1.8em;
+}
+
+button {
+  @apply px-[20px] text-white rounded py-[5px] bg-blue-500;
+}
+
+table{
+  thead{
+    th{
+      @apply bg-blue-500 text-white #{!important}
+    }
+  }
+}
+
+.spinner {
+  /* Set width and height for the spinner */
+  width: 50px;
+  height: 50px;
+
+  /* Use a border to create a circular shape */
+  border: 5px solid #bfdcf8;
+  border-top: 5px solid dodgerblue; /* Color for the spinner */
+
+  /* Ensure the spinner is a perfect circle */
+  border-radius: 50%;
+
+  /* Animation properties */
+  animation: spin 1s linear infinite; /* Apply the 'spin' animation */
+}
+
+/* Define the spin animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg); /* Start from 0 degrees */
+  }
+  to {
+    transform: rotate(360deg); /* Rotate to 360 degrees (full circle) */
+  }
+}

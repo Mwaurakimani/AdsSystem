@@ -13,4 +13,9 @@ class AdSpace extends Model
 
     protected $guarded = [];
 
+    public function page()
+    {
+        return $this->belongsTo(Pages::class,'page_id','id');
+    }
+
 }

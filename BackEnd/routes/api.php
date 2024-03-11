@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FetchAdsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     $user = Auth::user();
     return $user;
 });
+
+Route::post('/fetchAds',[FetchAdsController::class,'fetchAds']);
+
 
 require_once 'API/Campaign/index.php';
 require_once 'API/Pages/index.php';
