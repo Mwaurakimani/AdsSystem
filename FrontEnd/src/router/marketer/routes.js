@@ -4,6 +4,7 @@ import CreateCampaigns from "@/views/Dashboard/Campaigns/CreateCampaigns.vue";
 import ViewCampaigns from "@/views/Dashboard/Campaigns/ViewCampaigns.vue";
 import updateCampaigns from "@/views/Dashboard/Campaigns/UpdateCampaigns.vue";
 import ViewStats from "@/views/Dashboard/Campaigns/ViewStats.vue";
+import Billing from "@/views/Dashboard/Billing/Billing.vue";
 
 const marketerRoutes = [
     {
@@ -62,6 +63,16 @@ const marketerRoutes = [
             marketerGuard: true
         }
     },
+    {
+        path:'/marketer/billing',
+        name:'Billing',
+        component: Billing,
+        meta: {
+            requiresAuth: true,
+            marketerGuard: true
+        }
+
+    }
 ]
 
 export {

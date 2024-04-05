@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\StatsExport;
 use App\Http\Requests\Campaign\CreateRequest;
 use App\Models\Campaign;
+use App\Models\Pages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Helpers;
+use Maatwebsite\Excel\Facades\Excel;
+use Whoops\Exception\Formatter;
 
 
 class CampaignController extends Controller
@@ -91,4 +96,51 @@ class CampaignController extends Controller
         }
     }
 
+    public function getStats(Request $request,Campaign $campaign)
+    {
+        return response()->json([
+            'success' => true,
+            'stats' => $this->getStatsDataset($campaign)
+        ]);
+    }
+
+    public function downloadStats(Request $request,Campaign $campaign)
+    {
+        return response()->json([
+            'success' => true,
+            'stats' => $this->getStatsDataset($campaign)
+        ]);
+    }
+
+    private function getStatsDataset(Campaign $campaign): mixed
+    {
+        $statsDataset = $campaign->stats;
+
+        $statsDataset->transform(function ($stat, $key) {
+            $page = Pages::find($stat->page_id);
+
+            $stat->website = $page->domain;
+
+            $stat->status ? $stat->status = 'Active' : $stat->status = 'Inactive';
+
+            return $stat;
+        });
+
+        return $statsDataset;
+    }
+
+    public function linkClick(Request $request){
+        $parsedUrl = parse_url($request->fullPath);
+
+        $url = $parsedUrl['scheme']."://".$parsedUrl['host'].':'.$parsedUrl['port'];
+        $path = $parsedUrl['path'];
+
+        $campaign = Campaign::find($request->id);
+        $page = Pages::where('domain','LIKE',$url)->where('path','LIKE',$path)->first();
+
+        $stat = $campaign->stats()->where('page_id',$page->id)->first();
+
+        $stat->clicks = $stat->clicks + 1;
+        $stat->save();
+    }
 }

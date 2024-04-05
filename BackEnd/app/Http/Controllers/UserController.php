@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Helpers;
 
 class UserController extends Controller
 {
@@ -52,6 +53,21 @@ class UserController extends Controller
         return response()->json(['token' => $token, 'user' => $user]);
     }
 
+
+    public function update(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+
+        $user->username = $request->input('username');
+        $user->email = $request->input('email');
+        $user->save();
+
+        return [
+            'success' => true,
+            'message' => 'User created successfully',
+            'data' => $request->input()
+        ];
+    }
     function logout(Request $request){
         Auth::user()->tokens()->delete();
         return response()->json(['message' => 'Logged out successfully']);

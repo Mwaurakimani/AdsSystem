@@ -1,9 +1,9 @@
 <script setup>
-import { useRouter } from 'vue-router'
-import { useServer } from '@/composables/server.js'
-import { reactive } from 'vue'
+import {useRouter} from 'vue-router'
+import {useServer} from '@/composables/server.js'
+import {reactive} from 'vue'
 import {useSetupStore} from "@/stores/setupStore.js";
-import {formatErrors,errorsValues} from "@/composables/serverFromatter.js";
+import {formatErrors, errorsValues} from "@/composables/serverFromatter.js";
 
 const router = useRouter()
 const setup = useSetupStore()
@@ -17,25 +17,20 @@ const content = reactive({
 })
 
 
-function register() {
+async function register() {
 
   for (const key in errorsValues) {
     delete errorsValues[key];
   }
 
-  setup.$patch({
-    port:'100'
-  })
+  try {
+    let {data:{message}} = await server.post('/api/register', {...content})
+    alert(message)
+    await router.push({name: 'home'})
+  } catch (err) {
+    formatErrors(err)
+  }
 
-  server
-    .post('/api/register', {... content })
-    .then((res) => {
-      alert(res.data.message)
-      router.push({name:'home'})
-    })
-    .catch((err) => {
-      formatErrors(err)
-    })
 }
 </script>
 
@@ -47,13 +42,13 @@ function register() {
         <div class="px-[60px]">
           <div class="input-group">
             <label>Username</label>
-            <input type="text" placeholder="Username" v-model="content.username" />
-            <p v-if="errorsValues.username" class="text-red-400 text-right text-sm">{{errorsValues?.username[0]}}</p>
+            <input type="text" placeholder="Username" v-model="content.username"/>
+            <p v-if="errorsValues.username" class="text-red-400 text-right text-sm">{{ errorsValues?.username[0] }}</p>
           </div>
           <div class="input-group">
             <label>Email</label>
-            <input type="email" placeholder="Email" v-model="content.email" />
-            <p v-if="errorsValues.email" class="text-red-400 text-right text-sm">{{errorsValues?.email[0]}}</p>
+            <input type="email" placeholder="Email" v-model="content.email"/>
+            <p v-if="errorsValues.email" class="text-red-400 text-right text-sm">{{ errorsValues?.email[0] }}</p>
           </div>
           <div class="input-group">
             <label>Account Type</label>
@@ -62,17 +57,19 @@ function register() {
               <option value="marketer">Marketer</option>
               <option value="creator">Creator</option>
             </select>
-            <p v-if="errorsValues.accountType" class="text-red-400 text-right text-sm">{{errorsValues?.accountType[0]}}</p>
+            <p v-if="errorsValues.accountType" class="text-red-400 text-right text-sm">
+              {{ errorsValues?.accountType[0] }}</p>
           </div>
           <div class="input-group">
             <label>Password</label>
-            <input type="password" placeholder="Password" v-model="content.password" />
-            <p v-if="errorsValues.password" class="text-red-400 text-right text-sm">{{errorsValues?.password[0]}}</p>
+            <input type="password" placeholder="Password" v-model="content.password"/>
+            <p v-if="errorsValues.password" class="text-red-400 text-right text-sm">{{ errorsValues?.password[0] }}</p>
           </div>
           <div class="input-group">
             <label>Confirm Password</label>
-            <input type="password" placeholder="Password" v-model="content.confirm_password" />
-            <p v-if="errorsValues.confirm_password" class="text-red-400 text-right text-sm">{{errorsValues?.confirm_password[0]}}</p>
+            <input type="password" placeholder="Password" v-model="content.confirm_password"/>
+            <p v-if="errorsValues.confirm_password" class="text-red-400 text-right text-sm">
+              {{ errorsValues?.confirm_password[0] }}</p>
           </div>
         </div>
         <div class="flex items-center justify-around py-[20px]">

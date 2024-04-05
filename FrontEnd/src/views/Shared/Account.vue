@@ -4,18 +4,26 @@ import MarketerLayout from '@/components/Layouts/MarketerLayout.vue'
 import CreatorLayout from "@/components/Layouts/CreatorLayout.vue";
 import {useRouter} from "vue-router";
 import {computed, onBeforeMount, ref, shallowRef} from "vue";
+import {useServer} from "@/composables/server.js";
 
 const router = useRouter();
+const server = useServer()
 const component = shallowRef({
   component: MarketerLayout
 })
 
+const Account = ref({
+  username:null,
+  email:null,
+  status:'Active'
+})
 
 onBeforeMount(async () => {
   let userStorage = await getUserFromLocalStorage()
   let user = JSON.parse(userStorage)
 
-  console.log(user)
+  Account.value.username = user.username
+  Account.value.email = user.email
 
   if (user && user.accountType === 'marketer') {
     component.value = {
@@ -27,10 +35,19 @@ onBeforeMount(async () => {
     }
   }
 })
-
 async function getUserFromLocalStorage() {
   return localStorage.getItem('user');
 }
+
+async function updateAccount(){
+  try{
+    let {data:{data}} = await server.post('/api/updateAccount',Account.value)
+    alert("Updated Successfully")
+  }catch ({response:{data:{message}}}){
+    alert(message)
+  }
+}
+
 </script>
 
 
@@ -47,11 +64,11 @@ async function getUserFromLocalStorage() {
           <div class="flex justify-between mb-[20px]">
             <div>
               <label>Username</label>
-              <input type="text">
+              <input type="text" v-model="Account.username">
             </div>
             <div>
               <label>Email</label>
-              <input type="email">
+              <input type="email" v-model="Account.email">
             </div>
           </div>
 
@@ -71,7 +88,7 @@ async function getUserFromLocalStorage() {
           </div>
 
           <div>
-            <button>Save</button>
+            <button @click.prevent="updateAccount">Save</button>
           </div>
         </div>
 

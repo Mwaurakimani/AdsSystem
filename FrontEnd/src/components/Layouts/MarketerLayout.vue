@@ -12,9 +12,9 @@ const user = ref(JSON.parse(localStorage.getItem('user')))
       </div>
       <div class="w-[100%] h-[300px]">
         <ul class="navigation-pane">
-          <li><router-link class="navigation-pane-button active" to="/marketer/dashboard">Dashboard</router-link></li>
+          <li><router-link class="navigation-pane-button" to="/marketer/dashboard">Dashboard</router-link></li>
           <li><router-link class="navigation-pane-button" to="/marketer/campaigns">Campaigns</router-link></li>
-          <li><router-link class="navigation-pane-button" to="/marketer/campaigns">Billings</router-link></li>
+          <li><router-link class="navigation-pane-button" to="/marketer/billing">Billings</router-link></li>
           <li><router-link class="navigation-pane-button" to="/account">Account</router-link></li>
         </ul>
       </div>
@@ -51,7 +51,7 @@ const user = ref(JSON.parse(localStorage.getItem('user')))
       }
     }
 
-    .active{
+    .router-link-exact-active{
       @apply bg-blue-500 text-white
     }
   }

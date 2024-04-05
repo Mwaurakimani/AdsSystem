@@ -13,7 +13,7 @@ const route = useRoute()
 const server = useServer()
 const useSetup = useSetupStore()
 
-const campaign = reactive({})
+const campaign = ref({})
 const loading = ref(true)
 
 onBeforeMount( () => {
@@ -21,8 +21,12 @@ onBeforeMount( () => {
       .then((resp) => {
 
         Object.keys(resp.data).forEach(key => {
-          campaign[key] = resp.data[key];
+          campaign.value[key] = resp.data[key];
         });
+
+        campaign.value['display_on'] = (() => {
+          return JSON.parse(campaign.value['display_on']);
+        })()
 
         loading.value = false
       })
@@ -75,7 +79,7 @@ onBeforeMount( () => {
             <li v-if="campaign.display_on" class="flex mb-[10px]">
               <label class="font-semibold text-gray-500 w-[110px]">Display On</label>
               <ul>
-                <li v-for="item in JSON.parse(campaign.display_on)">{{item}}</li>
+                <li v-for="item in campaign.display_on">{{item}}</li>
               </ul>
             </li>
             <li v-if="campaign.from_start || campaign.from_end" class="flex mb-[10px]">
@@ -93,7 +97,7 @@ onBeforeMount( () => {
           </ul>
         </div>
 
-        <div class="p-[20px] mb-[30px] bg-white shadow-md">
+        <div v-if="JSON.parse(campaign.tags)" class="p-[20px] mb-[30px] bg-white shadow-md">
           <div class="flex space-x-2 justify-between mb-[20px]">
             <h3 class="font-semibold">Tags</h3>
           </div>

@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('campaigns_pages', function (Blueprint $table) {
             $table->id();
-            $table->string('username');
-            $table->string('email')->unique();
-            $table->string('accountType');
-            $table->string('password');
+            $table->unsignedBigInteger('campaign_id');
+            $table->unsignedBigInteger('page_id');
+            $table->integer('views')->default(0);
+            $table->integer('clicks')->default(0);
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }
@@ -26,8 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('campaigns_pages');
     }
 };
-
-

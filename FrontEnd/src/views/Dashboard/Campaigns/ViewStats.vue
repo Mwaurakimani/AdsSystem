@@ -1,9 +1,73 @@
 <script setup>
 import DashboardHeading from '@/components/DashboardComponents/DashboardHeading.vue'
 import MarketerLayout from '@/components/Layouts/MarketerLayout.vue'
-import { useRouter } from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
+import {ref} from "vue";
+import {useServer} from "@/composables/server.js";
 
 const router = useRouter()
+let route = useRoute();
+let server = useServer()
+const campaign_id = ref(route.params.id)
+const statsDataset = ref([])
+
+server.post('/api/campaign/getCampaignStats/' + campaign_id.value)
+    .then(({data: {stats}}) => {
+      statsDataset.value = stats
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+
+
+async function downloadStats() {
+  let {data: {stats}} = await server.post('/api/campaign/downloadStats/' + campaign_id.value)
+
+// Function to convert JSON to CSV
+  function convertToCSV(objArray) {
+    const array = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray;
+    let str = '';
+
+    // Headers
+    const headers = Object.keys(array[0]);
+    str += headers.join(',') + '\r\n';
+
+    // Rows
+    for (let i = 0; i < array.length; i++) {
+      let line = '';
+      for (let j = 0; j < headers.length; j++) {
+        if (line !== '') line += ',';
+        line += array[i][headers[j]];
+      }
+      str += line + '\r\n';
+    }
+    return str;
+  }
+
+  // Convert JSON to CSV
+  const csvData = convertToCSV(stats);
+
+  // Create a blob object from CSV data
+  const blob = new Blob([csvData], {type: 'text/csv'});
+
+  // Create a link element
+  const link = document.createElement('a');
+  link.href = window.URL.createObjectURL(blob);
+  link.download = 'data.csv'; // Set the filename here
+
+  // Append the link to the body
+  document.body.appendChild(link);
+
+  // Trigger the download
+  link.click();
+
+  // Clean up
+  document.body.removeChild(link);
+
+
+}
+
+
 </script>
 
 <template>
@@ -13,49 +77,37 @@ const router = useRouter()
       <div>
         <ul class="flex space-x-2">
           <li>
-            <button class="text-sm" @click.prevent="router.push({name:'viewCampaign',params:{id:1}})">View Campaign</button>
+            <button class="text-sm" @click.prevent="router.push({name:'viewCampaign',params:{id:1}})">View Campaign
+            </button>
           </li>
         </ul>
       </div>
       <div class="flex space-x-2">
-        <button class="text-sm">Download Statistics</button>
+        <button @click.prevent="downloadStats" class="text-sm">Download Statistics</button>
       </div>
     </div>
 
     <div class="w-[100%] flex text-sm space-x-2">
       <div class="w-2/3 h-[300px]">
         <div class="w-[100%] border bg-white shadow-md mb-[10px]">
-          <table class="table p-0 table-sm text-sm table-hover">
+          <table v-if="statsDataset" class="table p-0 table-sm text-sm table-hover">
             <thead class="bg-blue-500 text-white">
             <tr>
-              <th scope="col">Entry ID</th>
-              <th scope="col">Title</th>
+              <th scope="col">Website</th>
               <th scope="col">Views</th>
               <th scope="col">Clicks</th>
               <th scope="col">Status</th>
             </tr>
             </thead>
             <tbody>
-            <tr v-for="item in 10" @click="router.push({name:'viewCampaign',params:{id:1}})" >
-              <th>1</th>
-              <td>Page title</td>
-              <td>300</td>
-              <td>100</td>
-              <td>Active</td>
+            <tr v-for="item in statsDataset" @click="router.push({name:'viewCampaign',params:{id:1}})">
+              <td>{{ item.website }}</td>
+              <td>{{ item.views }}</td>
+              <td>{{ item.clicks }}</td>
+              <td>{{ item.status }}</td>
             </tr>
             </tbody>
           </table>
-        </div>
-        <div>
-          <nav aria-label="Page bg-white navigation">
-            <ul class="pagination pagination-sm">
-              <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-              <li class="page-item active"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-          </nav>
         </div>
       </div>
 

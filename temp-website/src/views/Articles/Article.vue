@@ -1,11 +1,12 @@
 <script setup>
 import Navigation from "@/components/FrontEnd/navigation.vue";
+
 </script>
 
 <template>
   <navigation class="mb-[20px]"></navigation>
   <div class="container">
-    <div class="ad-space" data-placement-id="20"></div>
+    <div class="ad-space" data-placement-id="1" ></div>
   </div>
   <div class="container mb-[20px]">
     <h1 class="text-[1.4em] text-gray-700 font-semibold underline mb-[10px]">Article Title</h1>
@@ -22,8 +23,8 @@ import Navigation from "@/components/FrontEnd/navigation.vue";
         veniam? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aspernatur dolore doloribus facere
         inventore ipsam laudantium maxime minima molestias mollitia non perspiciatis possimus quam qui, quis sint velit
         voluptatem voluptatibus!</p>
+      <div class="ad-space" data-placement-id="2" ></div>
       <div>
-        <div class="ad-space" data-placement-id="21" ></div>
       </div>
       <h3>One</h3>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias animi dignissimos mollitia natus, placeat
@@ -78,10 +79,10 @@ import Navigation from "@/components/FrontEnd/navigation.vue";
     <div class="w-1/4">
       <div class="h-[300px] w-[100%] border rounded-md mb-[20px] p-[10px]" >
         <h1 class="font-semibold underline">Side Bar One</h1>
+        <div class="ad-space" data-placement-id="3" ></div>
       </div>
 
       <div class="h-[300px] w-[100%] border rounded-md mb-[20px] p-[10px]" >
-        <div class="ad-space" data-placement-id="16" ></div>
       </div>
 
       <div class="h-[300px] w-[100%] border rounded-md mb-[20px] p-[10px]" >

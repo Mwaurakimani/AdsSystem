@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [UserController::class,'create']);
 
+Route::middleware('auth:sanctum')->post('/updateAccount', [UserController::class,'update']);
+
 Route::post('/login', [UserController::class,'login']);
 
 Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);

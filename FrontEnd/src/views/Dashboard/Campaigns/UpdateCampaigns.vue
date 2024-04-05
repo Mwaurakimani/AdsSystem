@@ -13,6 +13,7 @@ const route = useRoute()
 const server = useServer()
 const useSetup = useSetupStore()
 
+
 const campaign = reactive({})
 const loading = ref(true)
 
