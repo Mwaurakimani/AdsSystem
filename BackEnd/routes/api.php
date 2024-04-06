@@ -23,8 +23,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/fetchAds',[FetchAdsController::class,'fetchAds']);
 
 
-require_once 'API/Campaign/billing.php';
 require_once 'API/Pages/index.php';
+require_once 'API/Campaign/index.php';
+require_once 'API/Campaign/billing.php';
 
 
 
