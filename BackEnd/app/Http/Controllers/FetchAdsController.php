@@ -99,5 +99,10 @@ class FetchAdsController extends Controller
             ]);
         }
 
+        $campaign = Campaign::find($relevant_ads->id);
+
+        $resp = (new BillController())->updateBill($campaign,'view');
+
+
     }
 }

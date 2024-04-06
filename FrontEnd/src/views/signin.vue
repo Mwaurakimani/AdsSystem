@@ -2,11 +2,11 @@
 import {useRouter} from 'vue-router'
 import {useSetupStore} from "@/stores/setupStore.js";
 import {useServer} from "@/composables/server.js";
-import {formatErrors, errorsValues} from "@/composables/serverFromatter.js";
-import {reactive} from "vue";
+import {reactive, ref} from "vue";
 
 const router = useRouter()
 const server = useServer()
+const formErrors = ref([]);
 
 const setup = useSetupStore()
 const content = reactive({
@@ -15,13 +15,6 @@ const content = reactive({
 })
 
 async function login() {
-
-  for (const key in errorsValues) {
-    delete errorsValues[key];
-  }
-
-  console.clear()
-  console.log("here")
 
   try {
     let {
@@ -41,8 +34,8 @@ async function login() {
     else
       alert("Admin")
 
-  } catch (err) {
-    formatErrors(err)
+  } catch ({response: {data: {errors}}}) {
+    formErrors.value = errors
   }
 
 }
@@ -62,12 +55,12 @@ function register() {
           <div class="input-group">
             <label>Username</label>
             <input type="text" placeholder="username" v-model="content.username"/>
-            <p v-if="errorsValues.username" class="text-red-400 text-right text-sm">{{ errorsValues?.username[0] }}</p>
+            <p v-if="formErrors?.username" class="text-red-400 text-right text-sm">{{ formErrors?.username[0] }}</p>
           </div>
           <div class="input-group">
             <label>Password</label>
             <input type="password" placeholder="Password" v-model="content.password"/>
-            <p v-if="errorsValues.username" class="text-red-400 text-right text-sm">{{ errorsValues?.password[0] }}</p>
+            <p v-if="formErrors?.password" class="text-red-400 text-right text-sm">{{ formErrors?.password[0] }}</p>
           </div>
         </div>
         <div class="flex items-center justify-around py-[20px]">

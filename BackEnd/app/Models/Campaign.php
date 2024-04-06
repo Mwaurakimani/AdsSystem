@@ -15,4 +15,8 @@ class Campaign extends Model
     public function stats(){
         return $this->hasMany(CampaignsPages::class);
     }
+
+    public function owner(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 }

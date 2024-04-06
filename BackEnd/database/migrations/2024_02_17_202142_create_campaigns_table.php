@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('user_id');
             $table->enum('campaign_type', ['image', 'video']);
             $table->string('upload')->nullable();
             $table->enum('display_type', ['banner', 'side_bar', 'in_content']);
@@ -28,6 +29,9 @@ return new class extends Migration
             $table->string('billing_limit_action')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')
+                ->on('users')->onUpdate('cascade')->onDelete('set null');
         });
     }
 

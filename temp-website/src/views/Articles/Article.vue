@@ -23,7 +23,6 @@ import Navigation from "@/components/FrontEnd/navigation.vue";
         veniam? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aspernatur dolore doloribus facere
         inventore ipsam laudantium maxime minima molestias mollitia non perspiciatis possimus quam qui, quis sint velit
         voluptatem voluptatibus!</p>
-      <div class="ad-space" data-placement-id="2" ></div>
       <div>
       </div>
       <h3>One</h3>
@@ -79,7 +78,6 @@ import Navigation from "@/components/FrontEnd/navigation.vue";
     <div class="w-1/4">
       <div class="h-[300px] w-[100%] border rounded-md mb-[20px] p-[10px]" >
         <h1 class="font-semibold underline">Side Bar One</h1>
-        <div class="ad-space" data-placement-id="3" ></div>
       </div>
 
       <div class="h-[300px] w-[100%] border rounded-md mb-[20px] p-[10px]" >

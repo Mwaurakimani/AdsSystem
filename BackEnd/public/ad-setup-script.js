@@ -45,8 +45,6 @@ function bindImage(entry,adPlacement){
             data:entry.relevant_ad
         })
 
-        console.log(resp)
-
         // window.open(entry.relevant_ad.redirect_link)
     })
 

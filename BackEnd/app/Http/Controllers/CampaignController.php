@@ -7,6 +7,7 @@ use App\Http\Requests\Campaign\CreateRequest;
 use App\Models\Campaign;
 use App\Models\Pages;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers;
 use Maatwebsite\Excel\Facades\Excel;
@@ -23,6 +24,7 @@ class CampaignController extends Controller
 
         $campaign = Campaign::create([
             'title' => $request->input('title'),
+            'user_id' => Auth::user()->id,
             'campaign_type' => $request->input('campaignType'),
             'upload' => $this->upload_image($upload),
             'display_type' => $request->input('displayType'),
@@ -142,5 +144,7 @@ class CampaignController extends Controller
 
         $stat->clicks = $stat->clicks + 1;
         $stat->save();
+
+        $resp = (new BillController())->updateBill($campaign,'click');
     }
 }

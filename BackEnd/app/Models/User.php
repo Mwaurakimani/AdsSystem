@@ -55,4 +55,8 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function currentBill(){
+        return $this->hasMany(Bill::class,'user_id','id');
+    }
 }
