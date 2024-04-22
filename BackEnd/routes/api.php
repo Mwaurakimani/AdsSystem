@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-
 Route::post('/register', [UserController::class,'create']);
 
 Route::middleware('auth:sanctum')->post('/updateAccount', [UserController::class,'update']);
