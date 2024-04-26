@@ -11,6 +11,8 @@ $(document).ready(async () => {
         ad_request_setup = [...ad_request_setup, $(adPlacement).data('placement-id')]
     })
 
+    console.log()
+
     try {
         let {data} = await $.ajax({url, method, data: {ad_request_setup: ad_request_setup}})
 

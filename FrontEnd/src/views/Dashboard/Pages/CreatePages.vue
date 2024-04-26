@@ -8,11 +8,10 @@ import {useServer} from "@/composables/server.js";
 const router = useRouter()
 const server = useServer()
 
-
 const page = ref({
-  title:'Computer Article',
-  domain:'http://localhost:5173',
-  path:'/creator/pages/create'
+  title:null,
+  domain:null,
+  path:null
 })
 
 function submitPage(){
@@ -51,26 +50,23 @@ function submitPage(){
           <div class="flex w-[100%] space-x-2 mb-[10px]">
             <label class="w-2/6">Title</label>
             <div class="w-4/6">
-              <input type="text" class="border" v-model="page.title"/>
+              <input placeholder="Title" type="text" class="border" v-model="page.title"/>
             </div>
           </div>
 
           <div class="flex w-[100%] space-x-2 mb-[10px]">
             <label class="w-2/6">Domain</label>
             <div class="w-4/6">
-              <input type="text" class="border" v-model="page.domain" />
+              <input placeholder="Format : http://localhost:5173" type="text" class="border" v-model="page.domain" />
             </div>
           </div>
-
           <div class="flex w-[100%] space-x-2 mb-[10px]">
             <label class="w-2/6">Path</label>
             <div class="w-4/6">
-              <input type="text" class="border" v-model="page.path" />
+              <input placeholder="Format : /creator/pages/create" type="text" class="border" v-model="page.path" />
             </div>
           </div>
-
         </div>
-
       </div>
 
       <div class="w-1/3 h-[300px]">

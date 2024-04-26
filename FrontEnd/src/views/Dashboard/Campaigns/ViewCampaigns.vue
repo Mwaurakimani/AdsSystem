@@ -78,8 +78,8 @@ onBeforeMount( () => {
             </li>
             <li v-if="campaign.display_on" class="flex mb-[10px]">
               <label class="font-semibold text-gray-500 w-[110px]">Display On</label>
-              <ul>
-                <li v-for="item in campaign.display_on">{{item}}</li>
+              <ul v-if="campaign.display_on">
+                <li v-for="item in JSON.parse(campaign.display_on)">{{item}}</li>
               </ul>
             </li>
             <li v-if="campaign.from_start || campaign.from_end" class="flex mb-[10px]">

@@ -24,6 +24,8 @@ Route::middleware(['auth:sanctum'])->prefix('/campaign/')->group(function (){
 
     Route::post('/getMarketerStats', [AnalyticsController::class,'getStats']);
 
+    Route::post('/getPublisherStats', [AnalyticsController::class,'getPublisherStats']);
+
 
 });
 

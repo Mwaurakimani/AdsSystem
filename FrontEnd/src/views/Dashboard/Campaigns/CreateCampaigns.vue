@@ -171,8 +171,8 @@ function submitFrom() {
 </template>
 
 <style scoped>
-input {
-  @apply px-[10px];
+input,select {
+  @apply p-[6px] rounded-md outline-blue-400 !important;
 }
 
 input[type='text'] {

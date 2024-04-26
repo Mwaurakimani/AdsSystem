@@ -16,14 +16,10 @@ const loading = ref(true)
 onBeforeMount( () => {
   server.get('/api/pages')
       .then((resp) => {
-
         pages.value = resp.data.data
-
         loading.value = false
       })
-      .catch((err) => {
-        loading.value = false
-      })
+      .catch(() => loading.value = false)
 })
 </script>
 
@@ -36,21 +32,15 @@ onBeforeMount( () => {
           <li>
             <button class="text-sm" @click.prevent="router.push({ name: 'CreatePage' })">Create New</button>
           </li>
-          <li>
-            <button class="text-sm">View Active</button>
-          </li>
-          <li>
-            <button class="text-sm">View Inactive</button>
-          </li>
         </ul>
       </div>
       <div class="flex space-x-2">
-        <input type="search" class="border rounded" />
+        <input type="search" class="border rounded"/>
         <button class="text-sm">Search</button>
       </div>
     </div>
     <div class="w-[100%] border bg-white mb-[10px]">
-      <table class="table p-0 table-sm text-sm table-hover">
+      <table v-if="pages && pages.length" class="table p-0 table-sm text-sm table-hover">
         <thead class="bg-blue-500 text-white">
         <tr>
           <th scope="col">ID</th>
@@ -70,17 +60,9 @@ onBeforeMount( () => {
         </tr>
         </tbody>
       </table>
-    </div>
-    <div>
-      <nav aria-label="Page bg-white navigation">
-        <ul class="pagination pagination-sm">
-          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-          <li class="page-item active"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-      </nav>
+      <div v-else class="p-[20px] flex items-center justify-center">
+        <h1 class="text-gray-500">No data was found</h1>
+      </div>
     </div>
   </creator-layout>
 </template>

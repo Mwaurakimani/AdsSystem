@@ -77,20 +77,19 @@ async function downloadStats() {
       <div>
         <ul class="flex space-x-2">
           <li>
-            <button class="text-sm" @click.prevent="router.push({name:'viewCampaign',params:{id:1}})">View Campaign
-            </button>
+            <button class="text-sm" @click.prevent="router.push({name:'viewCampaign',params:{id:1}})">Back to Campaign</button>
           </li>
         </ul>
       </div>
       <div class="flex space-x-2">
-        <button @click.prevent="downloadStats" class="text-sm">Download Statistics</button>
+        <button v-if="statsDataset && statsDataset.length > 0" @click.prevent="downloadStats" class="text-sm">Download Statistics</button>
       </div>
     </div>
 
     <div class="w-[100%] flex text-sm space-x-2">
-      <div class="w-2/3 h-[300px]">
+      <div class="w-full h-[300px]">
         <div class="w-[100%] border bg-white shadow-md mb-[10px]">
-          <table v-if="statsDataset" class="table p-0 table-sm text-sm table-hover">
+          <table v-if="statsDataset && statsDataset.length > 0" class="table p-0 table-sm text-sm table-hover">
             <thead class="bg-blue-500 text-white">
             <tr>
               <th scope="col">Website</th>
@@ -108,26 +107,7 @@ async function downloadStats() {
             </tr>
             </tbody>
           </table>
-        </div>
-      </div>
-
-      <div class="w-1/3 h-[300px]">
-
-        <div class="bg-white shadow-md p-[10px]">
-          <div class="flex space-x-2 justify-between mb-[5px]">
-            <h3 class="font-semibold">Stats</h3>
-          </div>
-
-          <ul class="p-[10px]">
-            <li class="flex">
-              <label class="w-[110px]">Title</label>
-              <p>Campaign Title</p>
-            </li>
-            <li class="flex">
-              <label class="w-[110px]">Status</label>
-              <p>Active</p>
-            </li>
-          </ul>
+          <div v-else class="flex justify-center items-center p-[20px] text-[20px] font-semibold text-gray-500">No data available</div>
         </div>
       </div>
     </div>

@@ -18,53 +18,43 @@ const campaign = reactive({})
 const loading = ref(true)
 
 onBeforeMount(() => {
-  server.get('/api/campaign/view/' + route.params.id)
+  server
+      .get('/api/campaign/view/' + route.params.id)
       .then((resp) => {
 
         Object.keys(resp.data).forEach(key => {
-          campaign[key] = resp.data[key];
+          campaign[key] = resp.data[key]
         });
 
         campaign.display_on = JSON.parse(resp.data.display_on)
 
-        if (!Array.isArray(campaign.display_on)) {
+        if (!Array.isArray(campaign.display_on))
           campaign.display_on = []
-        }
 
         campaign.tags = JSON.parse(resp.data.tags)
 
-        if (!Array.isArray(campaign.tags)) {
+        if (!Array.isArray(campaign.tags))
           campaign.tags = []
-        }
 
         loading.value = false
-
       })
-      .catch((err) => {
-
-        console.log(err.data)
-
-        loading.value = false
-
-      })
+      .catch(() => loading.value = false)
 })
 
 const submitForm = () => {
-  const formData = new FormData();
+  const formData = new FormData()
 
   for (const key in campaign) {
 
-    if (campaign[key] === null || campaign[key] === undefined) continue;
+    if (campaign[key] === null || campaign[key] === undefined) continue
 
-    if (Array.isArray(campaign[key])) {
-
+    if (Array.isArray(campaign[key]))
       campaign[key].forEach((value, index) => {
-        formData.append(`${key}[${index}]`, value);
+        formData.append(`${key}[${index}]`, value)
       });
+    else
+      formData.append(key, campaign[key])
 
-    } else {
-      formData.append(key, campaign[key]);
-    }
   }
 
   server
@@ -73,28 +63,22 @@ const submitForm = () => {
           'Content-Type': 'multipart/form-data'
         }
       })
-      .then((resp) => {
-        window.location.href = window.location.href
-      })
-      .catch((error) => {
-        formatErrors(error)
-      });
+      .then(() => location.reload())
+      .catch((error) => formatErrors(error))
 }
 
 
 const addTag = (tag) => {
   tag = tag.trim()
-  if(tag != '' || tag != null){
-    campaign.tags = [... campaign.tags,tag]
+  if (tag !== '' || tag != null) {
+    campaign.tags = [...campaign.tags, tag]
   }
 }
 
-const removeTagParent = (remove) => {
-  campaign.tags = campaign.tags.filter(tag => tag !== remove);
-};
+const removeTagParent = (remove) => campaign.tags = campaign.tags.filter(tag => tag !== remove)
 
-provide('removeTagParent',removeTagParent)
-provide('addTag',addTag)
+provide('removeTagParent', removeTagParent)
+provide('addTag', addTag)
 
 </script>
 
@@ -107,12 +91,6 @@ provide('addTag',addTag)
         <ul class="flex space-x-2">
           <li>
             <button class="text-sm" @click.prevent="createCampaign">Create New</button>
-          </li>
-          <li>
-            <button class="text-sm">View Active</button>
-          </li>
-          <li>
-            <button class="text-sm">View Inactive</button>
           </li>
         </ul>
       </div>
@@ -281,6 +259,10 @@ provide('addTag',addTag)
 <style scoped>
 input[type='text'] {
   width: 100%;
+}
+
+input, select {
+  @apply p-[6px] rounded-md outline-blue-400 !important;
 }
 
 label {

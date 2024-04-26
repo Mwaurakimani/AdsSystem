@@ -5,8 +5,9 @@ import Navigation from "@/components/FrontEnd/navigation.vue";
 
 <template>
   <navigation class="mb-[20px]"></navigation>
-  <div class="container">
-    <div class="ad-space" data-placement-id="1" ></div>
+  <div class="container flex items-center justify-center p-[10px]">
+<!--    <div class="ad-space" data-placement-id="1" ></div>-->
+    <div class="ad-space" data-placement-id="2" ></div>
   </div>
   <div class="container mb-[20px]">
     <h1 class="text-[1.4em] text-gray-700 font-semibold underline mb-[10px]">Article Title</h1>
@@ -34,25 +35,6 @@ import Navigation from "@/components/FrontEnd/navigation.vue";
         distinctio dolorum ea est ex id ipsum molestias natus obcaecati quod reprehenderit sint sit soluta unde! Lorem
         ipsum dolor sit amet, consectetur adipisicing elit. Esse fugit inventore libero non perspiciatis saepe soluta ut.
         Eveniet quod tempore tenetur. Corporis impedit laboriosam, non omnis pariatur quas ullam ut!</p>
-      <h3>One</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, accusamus accusantium animi aut consectetur delectus
-        dolores expedita incidunt inventore ipsam minima molestias non pariatur perferendis, perspiciatis quod,
-        reprehenderit rerum sit? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur deleniti eaque ipsa
-        labore nihil quisquam, sequi. Alias commodi cupiditate delectus doloremque fuga in nesciunt quibusdam sunt
-        temporibus, veritatis voluptas, voluptatibus? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus
-        eligendi laboriosam magnam molestiae vitae. Atque illo labore sequi unde! Atque consequuntur cupiditate, iusto
-        maxime minus molestias quibusdam ratione repellendus voluptas. Lorem ipsum dolor sit amet, consectetur adipisicing
-        elit. Alias blanditiis dolorem doloribus fuga, ipsam ipsum laudantium minus, nisi quasi quibusdam repellat totam
-        vel vitae! Assumenda delectus explicabo itaque non voluptatem.</p>
-      <h3>One</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem dolores doloribus magnam molestiae mollitia
-        officiis optio quaerat, quam quasi quod rem vero! Aliquam enim fugiat ipsa molestiae mollitia porro similique?
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae, dolores error, est inventore ipsum itaque neque
-        omnis perferendis quas repellat sapiente similique sunt totam. Dolor id libero magni neque perspiciatis. Lorem
-        ipsum dolor sit amet, consectetur adipisicing elit. Ab alias amet aspernatur doloribus esse explicabo harum hic
-        libero magni, necessitatibus nihil non odit qui, ratione repudiandae sunt tempore veniam vitae. Lorem ipsum dolor
-        sit amet, consectetur adipisicing elit. Amet atque consequatur cupiditate dolorum ducimus eligendi eveniet fugiat
-        illum ipsam, laudantium, minima officiis quas quos reprehenderit similique tempora temporibus ullam veniam.</p>
       <h3>One</h3>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium alias aliquam aliquid atque autem beatae
         deleniti dolore dolorum ducimus error et, fugit laudantium magnam quae repellendus soluta ut vitae voluptatem.
@@ -98,6 +80,12 @@ import Navigation from "@/components/FrontEnd/navigation.vue";
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
+.ad-space{
+  @apply max-h-[200px];
 
+  img{
+    @apply max-h-[200px];
+  }
+}
 </style>

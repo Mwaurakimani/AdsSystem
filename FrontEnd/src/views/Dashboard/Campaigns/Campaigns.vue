@@ -66,6 +66,7 @@ onBeforeMount(() => {
         <tr>
           <th scope="col">ID</th>
           <th scope="col">Title</th>
+          <th scope="col">Type</th>
           <th scope="col">Created at</th>
           <th scope="col">Status</th>
         </tr>
@@ -74,6 +75,7 @@ onBeforeMount(() => {
         <tr v-for="item in campaigns" @click="router.push({name:'viewCampaign',params:{id:item.id}})">
           <th>{{ item.id }}</th>
           <td>{{ item.title }}</td>
+          <td>{{ item.display_type }}</td>
           <td>{{ dateFormatter(item.created_at) }}</td>
           <td>{{ item.status }}</td>
         </tr>
@@ -83,6 +85,7 @@ onBeforeMount(() => {
         <h1 class="text-gray-500">No data was found</h1>
       </div>
     </div>
+
     <!--    <div>-->
     <!--      <nav aria-label="Page bg-white navigation">-->
     <!--        <ul class="pagination pagination-sm">-->
@@ -94,6 +97,7 @@ onBeforeMount(() => {
     <!--        </ul>-->
     <!--      </nav>-->
     <!--    </div>-->
+
   </marketer-layout>
 </template>
 

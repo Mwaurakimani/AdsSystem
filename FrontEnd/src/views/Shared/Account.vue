@@ -9,13 +9,14 @@ import {useServer} from "@/composables/server.js";
 const router = useRouter();
 const server = useServer()
 const component = shallowRef({
-  component: MarketerLayout
+  component: null
 })
 
 const Account = ref({
-  username:null,
-  email:null,
-  status:'Active'
+  username: null,
+  email: null,
+  accountType: null,
+  status: 'Active'
 })
 
 onBeforeMount(async () => {
@@ -24,26 +25,24 @@ onBeforeMount(async () => {
 
   Account.value.username = user.username
   Account.value.email = user.email
+  Account.value.accountType = user.accountType
 
-  if (user && user.accountType === 'marketer') {
-    component.value = {
-      component: MarketerLayout
-    }
-  } else if (user && user.accountType === 'creator') {
-    component.value = {
-      component: CreatorLayout
-    }
-  }
+  if (user && user.accountType === 'marketer')
+    component.value = {component: MarketerLayout}
+  else if (user && user.accountType === 'creator')
+    component.value = {component: CreatorLayout}
+
 })
+
 async function getUserFromLocalStorage() {
   return localStorage.getItem('user');
 }
 
-async function updateAccount(){
-  try{
-    let {data:{data}} = await server.post('/api/updateAccount',Account.value)
+async function updateAccount() {
+  try {
+    let {data: {data}} = await server.post('/api/updateAccount', Account.value)
     alert("Updated Successfully")
-  }catch ({response:{data:{message}}}){
+  } catch ({response: {data: {message}}}) {
     alert(message)
   }
 }
@@ -84,7 +83,7 @@ async function updateAccount(){
 
           <div class="flex space-x-[10px] mb-[20px]">
             <label>Account Type:</label>
-            <p>Marketer</p>
+            <p>{{ `${Account.accountType.charAt(0).toUpperCase()}${Account.accountType.slice(1)}` }}</p>
           </div>
 
           <div>
@@ -131,7 +130,11 @@ input[type='text'], input[type='email'], input[type='password'], select {
   width: 100%;
   height: 30px;
   border: 1px solid grey;
-  @apply px-[10px] !rounded;
+  @apply px-[10px] rounded !important;
+}
+
+input, select {
+  @apply p-[6px] rounded-md outline-blue-400 !important;
 }
 
 label {

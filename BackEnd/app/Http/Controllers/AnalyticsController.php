@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campaign;
 use DateTime;
 use Illuminate\Http\Request;
 use App\Helpers;
@@ -23,6 +24,23 @@ class AnalyticsController extends Controller
             ->join('campaigns_pages as cp', 'campaigns.id', '=', 'cp.campaign_id')
             ->join('pages as p', 'cp.page_id', '=', 'p.id')
             ->whereIn('campaigns.id', [1, 2, 3])
+            ->orderByDesc('clicks')
+            ->limit(10)
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'Pages' => $results
+        ]);
+    }
+
+    public function getPublisherStats()
+    {
+//        Helpers\ddh($this->getDays());
+
+        $results = Campaign::select('p.title', 'p.id', 'p.domain', 'p.path', 'clicks', 'views')
+            ->join('campaigns_pages as cp', 'campaigns.id', '=', 'cp.campaign_id')
+            ->join('pages as p', 'cp.page_id', '=', 'p.id')
             ->orderByDesc('clicks')
             ->limit(10)
             ->get();
@@ -56,3 +74,5 @@ class AnalyticsController extends Controller
         return $week;
     }
 }
+
+
